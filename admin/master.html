@@ -43,13 +43,17 @@
     </div>
 
     <!-- ===== Location ===== -->
-    <div id="tab-location" class="master-content active">
-      <h2>📍 上班地點（Location）</h2>
-      <input id="locCode" placeholder="Code (例如: HQ)">
-      <input id="locName" placeholder="名稱">
-      <button onclick="addLocation()">新增</button>
-      <ul id="locList"></ul>
-    </div>
+
+<!-- ===== Location ===== -->
+<div id="tab-location" class="master-content active">
+
+  <div style="display:flex; align-items:center;">
+    <h2 style="margin:0;">📍 上班地點（Location）</h2>
+    <button class="add-btn" onclick="openLocationModal()">+</button>
+  </div>
+
+  <ul id="locationList"></ul>
+</div>
 
     <!-- ===== Department ===== -->
     <div id="tab-department" class="master-content">
