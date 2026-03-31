@@ -33,6 +33,12 @@
   <!-- ===== Content ===== -->
   <div class="content">
     <h1>🗂 Master Data</h1>
+<div class="master-tabs">
+  <div class="master-tab active" onclick="showMasterTab('location')">上班地點</div>
+  <div class="master-tab" onclick="showMasterTab('department')">部門</div>
+  <div class="master-tab" onclick="showMasterTab('job')">工種</div>
+  <div class="master-tab" onclick="showMasterTab('shift')">班次 / 崗位</div>
+</div>
 
     <h2>📍 上班地點（Location）</h2>
     <input id="locCode" placeholder="Code (例如: HQ)">
