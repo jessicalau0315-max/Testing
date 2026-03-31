@@ -10,3 +10,9 @@
 
 </body>
 </html>
+
+<script>
+  if (localStorage.getItem("role") !== "admin") {
+    window.location.href = "../login.html";
+  }
+</script>
