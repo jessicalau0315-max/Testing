@@ -1,3 +1,7 @@
+// SCHEMA_VERSION:
+// 1.0 - initial master data
+// 1.1 - location use companyName/locationName
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -174,6 +178,27 @@
 
 
   <script>
+
+// ===== DEV MODE SCHEMA VERSION =====
+var SCHEMA_VERSION = "1.1";
+
+var storedVersion = localStorage.getItem("SCHEMA_VERSION");
+
+if (storedVersion !== SCHEMA_VERSION) {
+  console.warn("Schema changed, clearing localStorage");
+
+  // ✅ 只清你嘅系統資料
+  localStorage.removeItem("locations");
+  localStorage.removeItem("companies");
+  localStorage.removeItem("departments");
+  localStorage.removeItem("jobs");
+
+  // ✅ 更新版本號
+  localStorage.setItem("SCHEMA_VERSION", SCHEMA_VERSION);
+}
+
+    
+    
 /* ============================
    Location Tab – Minimal ES5
    ============================ */
