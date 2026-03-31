@@ -157,24 +157,26 @@
   </div>
 </div>
 
-    <!-- ===== Job ===== -->
-    <div id="tab-job" class="master-content">
-      <h2>🛠 工種（Job Type）</h2>
-      <input id="jobCode" placeholder="Code (例如: DRIVER)">
-      <input id="jobName" placeholder="名稱">
-      <button onclick="addJob()">新增</button>
-      <ul id="jobList"></ul>
+<!-- ===== Job ===== -->
+<div id="tab-job" class="master-content">
 
-      <thead>
-  <tr>
-    <th>工種名稱</th>
-    <th>狀態</th>
-    <th>操作</th>
-  </tr>
-</thead>
-<tbody id="jobTableBody"></tbody>
+  <div style="display:flex; align-items:center; justify-content:space-between;">
+    <h2 style="margin:0;">🛠 工種（Job Type）</h2>
+    <button class="add-btn" onclick="openJobModal()">+</button>
+  </div>
 
-    </div>
+  <table class="table" style="margin-top:12px;">
+    <thead>
+      <tr>
+        <th>工種名稱</th>
+        <th>狀態</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="jobTableBody"></tbody>
+  </table>
+
+</div>
 
     <!-- ===== Job Type Modal ===== -->
 <div id="jobModal" class="modal-overlay">
