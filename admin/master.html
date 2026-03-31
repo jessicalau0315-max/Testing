@@ -254,16 +254,22 @@ function saveLocation() {
 }
 
 /* --- Render table --- */
+
 function renderLocationTable() {
   var tbody = document.getElementById("locationTableBody");
   tbody.innerHTML = "";
 
   for (var i = 0; i < locations.length; i++) {
     var l = locations[i];
+
+    var company = l.companyName || l.company || "";
+    var location = l.locationName || l.name || "";
+
     var tr = document.createElement("tr");
     tr.innerHTML =
-      "<td>" + l.companyName + "</td>" +
-      "<td>" + l.locationName + "</td>";
+      "<td>" + company + "</td>" +
+      "<td>" + location + "</td>";
+
     tbody.appendChild(tr);
   }
 }
