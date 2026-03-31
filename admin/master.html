@@ -42,13 +42,11 @@
       <div class="master-tab" onclick="showMasterTab('shift')">班次 / 崗位</div>
     </div>
 
-    <!-- ===== Location ===== -->
-
 <!-- ===== Location ===== -->
 <div id="tab-location" class="master-content active">
 
-  <div style="display:flex; align-items:center; justify-content:space-between;">
-    <h2 style="margin:0;">📍 上班地點（Location）</h2>
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h2 style="margin:0;">📍 上班地點</h2>
     <button class="add-btn" onclick="openLocationModal()">+</button>
   </div>
 
@@ -57,8 +55,6 @@
       <tr>
         <th>公司名稱</th>
         <th>工作地點</th>
-        <th>狀態</th>
-        <th>操作</th>
       </tr>
     </thead>
     <tbody id="locationTableBody"></tbody>
@@ -66,28 +62,24 @@
 
 </div>
 
-  <!-- ===== Location Modal ===== -->
+ <!-- ===== Location Modal ===== -->
 <div id="locationModal" class="modal-overlay">
   <div class="modal">
 
     <div class="modal-header">
-      <h3 id="locationModalTitle">新增上班地點</h3>
+      <h3>新增上班地點</h3>
       <span class="modal-close" onclick="closeLocationModal()">✕</span>
     </div>
 
     <div class="modal-body">
+
       <label>公司名稱</label>
-      <select id="locCompany">
-        <option value="KLN Logistics (HK) LTD.">
-          KLN Logistics (HK) LTD.
-        </option>
-      </select>
+      <input list="companyList" id="locCompanyInput" placeholder="輸入或選擇公司">
+      <datalist id="companyList"></datalist>
 
       <label>工作地點</label>
-      <input id="locName" placeholder="請輸入工作地點">
+      <input id="locNameInput" placeholder="請輸入工作地點">
 
-      <!-- hidden，用嚟分新增 / 編輯 -->
-      <input type="hidden" id="locEditId">
     </div>
 
     <div class="modal-footer">
@@ -411,7 +403,102 @@ function renderDepartmentTable() {
 
 /* Init */
 renderDepartmentTable();
-  
+
+  <script>
+/* ==============================
+   Location – Table + Modal
+   Editable Company (localStorage)
+   ============================== */
+
+var companies = JSON.parse(localStorage.getItem("companies") || "[]");
+var locations = JSON.parse(localStorage.getItem("locations") || "[]");
+
+/* Init default company */
+if (companies.length === 0) {
+  companies.push({ id: Date.now(), name: "KLN Logistics (HK) LTD." });
+  localStorage.setItem("companies", JSON.stringify(companies));
+}
+
+/* ===== Modal control ===== */
+function openLocationModal() {
+  document.getElementById("locationModal").style.display = "flex";
+  document.getElementById("locNameInput").value = "";
+  renderCompanyList();
+}
+
+function closeLocationModal() {
+  document.getElementById("locationModal").style.display = "none";
+}
+
+/* ===== Render company datalist ===== */
+function renderCompanyList() {
+  var list = document.getElementById("companyList");
+  list.innerHTML = "";
+
+  for (var i = 0; i < companies.length; i++) {
+    var opt = document.createElement("option");
+    opt.value = companies[i].name;
+    list.appendChild(opt);
+  }
+
+  // default value
+  document.getElementById("locCompanyInput").value = companies[0].name;
+}
+
+/* ===== Save location ===== */
+function saveLocation() {
+  var companyName = document.getElementById("locCompanyInput").value.trim();
+  var locationName = document.getElementById("locNameInput").value.trim();
+
+  if (!companyName || !locationName) {
+    alert("請填寫公司名稱及工作地點");
+    return;
+  }
+
+  // find or create company
+  var company = null;
+  for (var i = 0; i < companies.length; i++) {
+    if (companies[i].name === companyName) {
+      company = companies[i];
+      break;
+    }
+  }
+  if (!company) {
+    company = { id: Date.now(), name: companyName };
+    companies.push(company);
+    localStorage.setItem("companies", JSON.stringify(companies));
+  }
+
+  locations.push({
+    id: Date.now(),
+    companyId: company.id,
+    companyName: company.name,
+    locationName: locationName
+  });
+
+  localStorage.setItem("locations", JSON.stringify(locations));
+  closeLocationModal();
+  renderLocationTable();
+}
+
+/* ===== Render table ===== */
+function renderLocationTable() {
+  var tbody = document.getElementById("locationTableBody");
+  tbody.innerHTML = "";
+
+  for (var i = 0; i < locations.length; i++) {
+    var l = locations[i];
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + l.companyName + "</td>" +
+      "<td>" + l.locationName + "</td>";
+    tbody.appendChild(tr);
+  }
+}
+
+/* Init */
+renderLocationTable();
+ 
 </script>
 
 </body>
