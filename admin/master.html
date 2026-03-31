@@ -293,6 +293,125 @@ function renderLocationTable() {
 
 /* Init */
 renderLocationTable();
+
+  /* =====================================================
+   ✅ Department – depends on Location
+   ===================================================== */
+
+let departments = JSON.parse(localStorage.getItem("departments")) || [];
+
+/* Modal Control */
+function openDepartmentModal(dept = null) {
+  document.getElementById("departmentModal").style.display = "flex";
+  document.getElementById("departmentModalTitle").innerText = dept ? "編輯部門" : "新增部門";
+
+  // populate location dropdown (only active)
+  const locSelect = document.getElementById("deptLocation");
+  locSelect.innerHTML = "";
+
+  locations.filter(l => l.active).forEach(l => {
+    const opt = document.createElement("option");
+    opt.value = l.id;
+    opt.text = l.name;
+    locSelect.appendChild(opt);
+  });
+
+  if (dept) {
+    document.getElementById("deptCompany").value = dept.company;
+    document.getElementById("deptLocation").value = dept.locationId;
+    document.getElementById("deptCode").value = dept.code;
+    document.getElementById("deptName").value = dept.name;
+    document.getElementById("deptEditId").value = dept.id;
+  } else {
+    document.getElementById("deptCompany").value = "KLN Logistics (HK) LTD.";
+    document.getElementById("deptCode").value = "";
+    document.getElementById("deptName").value = "";
+    document.getElementById("deptEditId").value = "";
+  }
+}
+
+function closeDepartmentModal() {
+  document.getElementById("departmentModal").style.display = "none";
+}
+
+/* Save */
+function saveDepartment() {
+  const company = deptCompany.value;
+  const locationId = Number(deptLocation.value);
+  const location = locations.find(l => l.id === locationId);
+  const code = deptCode.value.trim();
+  const name = deptName.value.trim();
+  const editId = deptEditId.value;
+
+  if (!code || !name) {
+    alert("請填寫完整部門資料");
+    return;
+  }
+
+  if (!/^[A-Za-z0-9]+$/.test(code)) {
+    alert("部門代碼只限英文及數字");
+    return;
+  }
+
+  if (editId) {
+    departments = departments.map(d =>
+      d.id == editId
+        ? { ...d, company, locationId, locationName: location.name, code, name }
+        : d
+    );
+  } else {
+    departments.push({
+      id: Date.now(),
+      company,
+      locationId,
+      locationName: location.name,
+      code,
+      name,
+      active: true
+    });
+  }
+
+  localStorage.setItem("departments", JSON.stringify(departments));
+  closeDepartmentModal();
+  renderDepartmentTable();
+}
+
+/* Enable / Disable */
+function toggleDepartment(id) {
+  departments = departments.map(d =>
+    d.id === id ? { ...d, active: !d.active } : d
+  );
+  localStorage.setItem("departments", JSON.stringify(departments));
+  renderDepartmentTable();
+}
+
+/* Render */
+function renderDepartmentTable() {
+  const tbody = document.getElementById("departmentTableBody");
+  tbody.innerHTML = "";
+
+  departments.forEach(d => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${d.company}</td>
+      <td>${d.locationName}</td>
+      <td>${d.code}</td>
+      <td>${d.name}</td>
+      <td>${d.active ? "✅ 啟用" : "⛔ 已停用"}</td>
+      <td>
+        <button onclick='openDepartmentModal(${JSON.stringify(d)})'>編輯</button>
+        <button onclick='toggleDepartment(${d.id})'>
+          ${d.active ? "停用" : "啟用"}
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+/* Init */
+renderDepartmentTable();
+  
 </script>
 
 </body>
