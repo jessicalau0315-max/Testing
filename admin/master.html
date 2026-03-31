@@ -2,10 +2,13 @@
 <html>
 <head>
   <title>Testing | Admin - Master Data</title>
-  ../css/style.css
+
+  <!-- ✅ 正確載入 CSS -->
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
+<!-- ===== Header ===== -->
 <div class="header">
   <div class="logo">🧪 Testing</div>
   <div class="user">
@@ -14,48 +17,48 @@
   </div>
 </div>
 
+<!-- ===== Layout ===== -->
 <div class="layout">
 
+  <!-- ===== Sidebar ===== -->
   <div class="sidebar">
-    dashboard.html🏠 Dashboard</a>
-    master.html🗂 Master Data</a>
-    employees.html👥 Employees</a>
-    attendance.html⏱ Attendance</a>
-    payroll.html💰 Payroll</a>
-    reports.html📄 Reports</a>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="master.html">🗂 Master Data</a>
+    <a href="employees.html">👥 Employees</a>
+    <a href="attendance.html">⏱ Attendance</a>
+    <a href="payroll.html">💰 Payroll</a>
+    <a href="reports.html">📄 Reports</a>
   </div>
 
+  <!-- ===== Content ===== -->
   <div class="content">
     <h1>🗂 Master Data</h1>
 
-    <!-- ===== Location ===== -->
     <h2>📍 上班地點（Location）</h2>
     <input id="locCode" placeholder="Code (例如: HQ)">
     <input id="locName" placeholder="名稱">
     <button onclick="addLocation()">新增</button>
     <ul id="locList"></ul>
 
-    <!-- ===== Department ===== -->
     <h2>🏢 部門（Department）</h2>
     <input id="deptCode" placeholder="Code (例如: HR)">
     <input id="deptName" placeholder="名稱">
     <button onclick="addDepartment()">新增</button>
     <ul id="deptList"></ul>
 
-    <!-- ===== Job ===== -->
     <h2>🛠 工種（Job Type）</h2>
     <input id="jobCode" placeholder="Code (例如: DRIVER)">
     <input id="jobName" placeholder="名稱">
     <button onclick="addJob()">新增</button>
     <ul id="jobList"></ul>
 
-    <!-- ===== Shift ===== -->
     <h2>⏰ 班次 / 崗位（Shift / Post）</h2>
     <input id="shiftCode" placeholder="Code (例如: AM)">
     <input id="shiftName" placeholder="名稱">
     <button onclick="addShift()">新增</button>
     <ul id="shiftList"></ul>
   </div>
+
 </div>
 
 <script>
@@ -68,103 +71,63 @@ function logout() {
   window.location.href = "../login.html";
 }
 
-/* ===== Storage Helpers ===== */
-function load(key) {
-  return JSON.parse(localStorage.getItem(key) || "[]");
-}
-function save(key, data) {
-  localStorage.setItem(key, JSON.stringify(data));
-}
+/* ===== Storage ===== */
+function load(k){ return JSON.parse(localStorage.getItem(k)||"[]"); }
+function save(k,v){ localStorage.setItem(k,JSON.stringify(v)); }
 
 /* ===== Location ===== */
 let locations = load("locations");
-
-function addLocation() {
-  locations.push({
-    id: Date.now(),
-    code: locCode.value,
-    name: locName.value,
-    active: true
-  });
-  save("locations", locations);
-  locCode.value = locName.value = "";
+function addLocation(){
+  locations.push({id:Date.now(),code:locCode.value,name:locName.value,active:true});
+  save("locations",locations);
+  locCode.value=locName.value="";
   renderLocations();
 }
-
-function renderLocations() {
-  locList.innerHTML = "";
-  locations.forEach(l => {
-    locList.innerHTML += `<li>${l.code} - ${l.name}</li>`;
-  });
+function renderLocations(){
+  locList.innerHTML="";
+  locations.forEach(l=>locList.innerHTML+=`<li>${l.code} - ${l.name}</li>`);
 }
 renderLocations();
 
 /* ===== Department ===== */
 let departments = load("departments");
-
-function addDepartment() {
-  departments.push({
-    id: Date.now(),
-    code: deptCode.value,
-    name: deptName.value,
-    active: true
-  });
-  save("departments", departments);
-  deptCode.value = deptName.value = "";
+function addDepartment(){
+  departments.push({id:Date.now(),code:deptCode.value,name:deptName.value,active:true});
+  save("departments",departments);
+  deptCode.value=deptName.value="";
   renderDepartments();
 }
-
-function renderDepartments() {
-  deptList.innerHTML = "";
-  departments.forEach(d => {
-    deptList.innerHTML += `<li>${d.code} - ${d.name}</li>`;
-  });
+function renderDepartments(){
+  deptList.innerHTML="";
+  departments.forEach(d=>deptList.innerHTML+=`<li>${d.code} - ${d.name}</li>`);
 }
 renderDepartments();
 
 /* ===== Job ===== */
 let jobs = load("jobs");
-
-function addJob() {
-  jobs.push({
-    id: Date.now(),
-    code: jobCode.value,
-    name: jobName.value,
-    active: true
-  });
-  save("jobs", jobs);
-  jobCode.value = jobName.value = "";
+function addJob(){
+  jobs.push({id:Date.now(),code:jobCode.value,name:jobName.value,active:true});
+  save("jobs",jobs);
+  jobCode.value=jobName.value="";
   renderJobs();
 }
-
-function renderJobs() {
-  jobList.innerHTML = "";
-  jobs.forEach(j => {
-    jobList.innerHTML += `<li>${j.code} - ${j.name}</li>`;
-  });
+function renderJobs(){
+  jobList.innerHTML="";
+  jobs.forEach(j=>jobList.innerHTML+=`<li>${j.code} - ${j.name}</li>`);
 }
 renderJobs();
 
 /* ===== Shift ===== */
 let shifts = load("shifts");
-
-function addShift() {
-  shifts.push({
-    id: Date.now(),
-    code: shiftCode.value,
-    name: shiftName.value,
-    active: true
-  });
-  save("shifts", shifts);
-  shiftCode.value = shiftName.value = "";
+function addShift(){
+  shifts.push({id:Date.now(),code:shiftCode.value,name:shiftName.value,active:true});
+  save("shifts",shifts);
+  shiftCode.value=shiftName.value="";
   renderShifts();
 }
-
-function renderShifts() {
-  shiftList.innerHTML = "";
-  shifts.forEach(s => {
-    shiftList.innerHTML += `<li>${s.code} - ${s.name}</li>`;
-  });
+function renderShifts(){
+  shiftList.innerHTML="";
+  shifts.forEach(s=>shiftList.innerHTML+=`<li>${s.code} - ${s.name}</li>`);
 }
 renderShifts();
 </script>
