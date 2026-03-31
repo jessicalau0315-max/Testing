@@ -300,21 +300,23 @@ function renderLocationTable() {
 
   locations.forEach(loc => {
     const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${loc.company}</td>
-      <td>${loc.name}</td>
-      <td>${loc.active ? "✅ 啟用" : "⛔ 已停用"}</td>
-      <td>
-        <button onclick='openLocationModal(${JSON.stringify(loc)})'>編輯</button>
-        <button onclick='toggleLocation(${loc.id})'>
-          ${loc.active ? "停用" : "啟用"}
-        </button>
-      </td>
-    `;
-
+    tr.innerHTML =
+      "<td>" + loc.company + "</td>" +
+      "<td>" + loc.name + "</td>" +
+      "<td>" + (loc.active ? "✅ 啟用" : "⛔ 已停用") + "</td>" +
+      "<td>" +
+        "<button onclick='openLocationModalById(" + loc.id + ")'>編輯</button>" +
+        "<button onclick='toggleLocation(" + loc.id + ")'>" +
+          (loc.active ? "停用" : "啟用") +
+        "</button>" +
+      "</td>";
     tbody.appendChild(tr);
   });
+}
+
+function openLocationModalById(id) {
+  const loc = locations.find(l => l.id === id);
+  openLocationModal(loc);
 }
 
 /* Init */
@@ -418,22 +420,27 @@ function renderDepartmentTable() {
 
   departments.forEach(d => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${d.company}</td>
-      <td>${d.locationName}</td>
-      <td>${d.code}</td>
-      <td>${d.name}</td>
-      <td>${d.active ? "✅ 啟用" : "⛔ 已停用"}</td>
-      <td>
-        <button onclick='openDepartmentModal(${JSON.stringify(d)})'>編輯</button>
-        <button onclick='toggleDepartment(${d.id})'>
-          ${d.active ? "停用" : "啟用"}
-        </button>
-      </td>
-    `;
+    tr.innerHTML =
+      "<td>" + d.company + "</td>" +
+      "<td>" + d.locationName + "</td>" +
+      "<td>" + d.code + "</td>" +
+      "<td>" + d.name + "</td>" +
+      "<td>" + (d.active ? "✅ 啟用" : "⛔ 已停用") + "</td>" +
+      "<td>" +
+        "<button onclick='openDepartmentModalById(" + d.id + ")'>編輯</button>" +
+        "<button onclick='toggleDepartment(" + d.id + ")'>" +
+          (d.active ? "停用" : "啟用") +
+        "</button>" +
+      "</td>";
     tbody.appendChild(tr);
   });
 }
+  
+function openDepartmentModalById(id) {
+  const dept = departments.find(d => d.id === id);
+  openDepartmentModal(dept);
+}
+
 
 /* Init */
 renderDepartmentTable();
@@ -528,6 +535,12 @@ function renderJobTable() {
     tbody.appendChild(tr);
   });
 }
+  
+function openJobModalById(id) {
+  const job = jobs.find(j => j.id === id);
+  openJobModal(job);
+}
+
 
 renderJobTable();
 
