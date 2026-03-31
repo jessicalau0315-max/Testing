@@ -239,14 +239,21 @@ function showMasterTab(type) {
     contents[j].classList.remove("active");
   }
 
-  // activate selected
+  // activate selected tab
   var tabId = "tab-" + type;
+
   for (var k = 0; k < tabs.length; k++) {
     if (tabs[k].getAttribute("onclick") === "showMasterTab('" + type + "')") {
       tabs[k].classList.add("active");
     }
   }
 
+  var content = document.getElementById(tabId);
+  if (content) {
+    content.classList.add("active");
+  }
+
+  // remember active tab
   localStorage.setItem("ACTIVE_MASTER_TAB", type);
 }
 
