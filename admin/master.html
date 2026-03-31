@@ -181,6 +181,41 @@
 
   <script>
 
+    /* ===== BASE FUNCTIONS (REQUIRED) ===== */
+
+/* Logout */
+function logout() {
+  localStorage.clear();
+  window.location.href = "../login.html";
+}
+
+/* Tabs switching */
+function showMasterTab(type) {
+  var tabs = document.getElementsByClassName("master-tab");
+  var contents = document.getElementsByClassName("master-content");
+
+  // clear all
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.remove("active");
+  }
+  for (var j = 0; j < contents.length; j++) {
+    contents[j].classList.remove("active");
+  }
+
+  // activate selected
+  var tabId = "tab-" + type;
+  for (var k = 0; k < tabs.length; k++) {
+    if (tabs[k].getAttribute("onclick") === "showMasterTab('" + type + "')") {
+      tabs[k].classList.add("active");
+    }
+  }
+
+  var content = document.getElementById(tabId);
+  if (content) {
+    content.classList.add("active");
+  }
+}
+
 // ===== DEV MODE SCHEMA VERSION =====
 var SCHEMA_VERSION = "1.1";
 
