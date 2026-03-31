@@ -43,16 +43,27 @@
     </div>
 
     <!-- ===== Location ===== -->
-
+    
 <!-- ===== Location ===== -->
 <div id="tab-location" class="master-content active">
 
-  <div style="display:flex; align-items:center;">
+  <div style="display:flex; align-items:center; justify-content:space-between;">
     <h2 style="margin:0;">📍 上班地點（Location）</h2>
     <button class="add-btn" onclick="openLocationModal()">+</button>
   </div>
 
-  <ul id="locationList"></ul>
+  <table class="table" style="margin-top:12px;">
+    <thead>
+      <tr>
+        <th>公司名稱</th>
+        <th>工作地點</th>
+        <th>狀態</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="locationTableBody"></tbody>
+  </table>
+
 </div>
 
     <!-- ===== Location Modal ===== -->
